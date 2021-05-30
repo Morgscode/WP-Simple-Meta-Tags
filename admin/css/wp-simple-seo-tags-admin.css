@@ -1,0 +1,47 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+.metabox {
+  padding: 1rem;
+  background-color: #f3f3f3;
+  border: 1px solid #dcdde1;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.metabox:first-of-type {
+  margin-top: 2rem;
+}
+
+.metabox__label {
+  font-size: 20px;
+  font-weight: 300;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.metabox__info {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.metabox__text-input,
+.metabox__text-area {
+  padding: 0.5rem !important;
+  display: block;
+  width: 100%;
+  border: 1px solid #dcdde1 !important;
+  transition: border 0.4s ease;
+}
+
+.metabox__text-input:focus,
+.metabox__text-area:focus .metabox__text-input:focus-within,
+.metabox__text-area:focus-within {
+  border-color: firebrick !important;
+  border: 1px solid firebrick !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
