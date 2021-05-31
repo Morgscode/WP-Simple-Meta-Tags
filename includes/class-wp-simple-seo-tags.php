@@ -174,10 +174,11 @@ class Wp_Simple_Seo_Tags {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'after_setup_theme', $plugin_public, 'enable_plugins_title_tag_management', 1, 1 );
-		$this->loader->add_filter( 'pre_get_document_title', $plugin_public, 'filter_document_title', 1, 1 );
+		$this->loader->add_action( 'after_setup_theme', $plugin_public, 'enable_plugins_title_tag_management', PHP_INT_MAX, 1 );
+		$this->loader->add_filter( 'pre_get_document_title', $plugin_public, 'filter_document_title', PHP_INT_MAX, 1 );
 		$this->loader->add_action( 'wp_head', $plugin_public, 'generate_meta_description', 1, 1 );
-		$this->loader->add_filter( 'get_canonical_url', $plugin_public, 'filter_canonical_post_url', 1, 1 );
+		$this->loader->add_filter( 'get_canonical_url', $plugin_public, 'filter_canonical_post_url', PHP_INT_MAX, 1 );
+		$this->loader->add_filter( 'wp_robots', $plugin_public, 'filter_robots_directives', 10, 1 );
 
 	}
 

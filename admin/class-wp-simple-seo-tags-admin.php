@@ -56,9 +56,9 @@ class Wp_Simple_Seo_Tags_Admin {
       'post-html-page-title',
       'post-html-meta-description',
       'post-canonical-url',
-      'post-robots-directives'
+      'post-robots-directives',
+			'social-media-image-url'
     ];
-
 	}
 
 	/**

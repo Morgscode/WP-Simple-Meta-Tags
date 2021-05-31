@@ -121,6 +121,7 @@ class Wp_Simple_Seo_Tags_Public {
 	{
     global $post; 
 		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
+
 		if ( isset( $page_seo_atts[0]['post-html-meta-description'] ) ) { ?>
 			<meta name="description" content="<?php echo $page_seo_atts[0]['post-html-meta-description']; ?>" />
 		<?php 
@@ -139,10 +140,28 @@ class Wp_Simple_Seo_Tags_Public {
 		if ( isset( $page_seo_atts[0]['post-canonical-url'] ) ) { 
 			 $canonical_url = $page_seo_atts[0]['post-canonical-url'];
 		} else {
-			 $canonical_url = $canonical_url;
+			 $canonical_url;
 		}
 
 		return $canonical_url;
+	}
+
+	public function filter_robots_directives( $robots )
+	{
+		global $post;
+
+		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
+
+		if ( isset( $page_seo_atts[0]['post-robots-directives'] ) ) {
+
+			$robots_atts = explode( ',', $page_seo_atts[0]['post-robots-directives'] );
+	
+			foreach ( $robots_atts as $robot ) {
+				$robots[$robot] = true;
+			}
+		}
+		
+		return $robots;
 	}
 
 }
