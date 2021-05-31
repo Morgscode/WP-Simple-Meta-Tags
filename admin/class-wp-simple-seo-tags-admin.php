@@ -52,7 +52,7 @@ class Wp_Simple_Seo_Tags_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		$this->screens = get_post_types();
-    $this->field_keys = [
+    $this->page_atts_field_keys = [
       'post-html-page-title',
       'post-html-meta-description',
       'post-canonical-url',
@@ -146,7 +146,7 @@ class Wp_Simple_Seo_Tags_Admin {
     $post_seo_atts = array();
 
 		// we've predefined our array keys for safety
-    foreach ( $this->field_keys as $key ) {
+    foreach ( $this->page_atts_field_keys as $key ) {
 			// for another layer of security, let's only check for present values against the keys we've defined 
 			if ( array_key_exists( $key, $_POST ) ) {
 				// sanitize the value and mutate our empty array
@@ -164,5 +164,5 @@ class Wp_Simple_Seo_Tags_Admin {
 		// lets grab the html in our admin display.
 		require plugin_dir_path(__FILE__).'partials/wp-simple-seo-tags-admin-page-atts-metabox-display.php';
   }
-	
+
 }

@@ -96,8 +96,41 @@ class Wp_Simple_Seo_Tags_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-simple-seo-tags-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-simple-seo-tags-public.js', array( 'jquery' ), $this->version, true );
 
+	}
+
+	public function enable_plugins_title_tag_management()
+	{
+		add_theme_support('title-tag');
+	}
+
+	public function filter_document_title( $title )
+	{
+		global $post;
+
+		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
+
+		if ( isset($page_seo_atts[0]['post-html-page-title']) ) {
+			$title = $page_seo_atts[0]['post-html-page-title'];
+		}
+	
+		return $title;
+	}
+
+	public function generate_meta_description()
+	{
+    global $post; 
+
+		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
+
+		if ( isset( $page_seo_atts[0]['post-html-meta-description'] ) ) { ?>
+			 <meta name="description" content="<?php echo $page_seo_atts[0]['post-html-meta-description']; ?>" />
+		<?php 
+	} else { ?>
+		  <meta name="description" content="<?php echo bloginfo('description'); ?>" /> 
+		<?php 	 
+		}
 	}
 
 }
