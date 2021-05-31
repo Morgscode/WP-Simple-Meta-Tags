@@ -75,6 +75,6 @@ var_dump($post_seo_atts);
   <?php echo (isset($post_seo_atts[0]['post-social-media-image-url'])) ? 'preview-visible' : ''; ?>
   " <?php echo (isset($post_seo_atts[0]['post-social-media-image-url'])) ? 'src=' . $post_seo_atts[0]['post-social-media-image-url'] : ''; ?> />
 
-  <input class="wp-simple-seo-tags-social-media-image" id="wp-simple-seo-tags-social-media-image" name="post-social-media-image-url" type="hidden" />
+  <input class="wp-simple-seo-tags-social-media-image" id="wp-simple-seo-tags-social-media-image" name="post-social-media-image-url" type="hidden" <?php echo (isset($post_seo_atts[0]['post-social-media-image-url'])) ? 'value=' . $post_seo_atts[0]['post-social-media-image-url'] : ''; ?> />
 
 </div>

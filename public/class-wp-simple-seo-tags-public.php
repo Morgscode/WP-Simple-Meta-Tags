@@ -129,8 +129,16 @@ class Wp_Simple_Seo_Tags_Public
 		<?php
 		} else { ?>
 			<meta name="description" content="<?php echo bloginfo('description'); ?>" />
-<?php
+		<?php
 		}
+	}
+
+	public function generate_responsive_tags()
+	{
+		?>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<?php
 	}
 
 	public function filter_canonical_post_url($canonical_url)

@@ -27,7 +27,8 @@
  * @subpackage Wp_Simple_Seo_Tags/includes
  * @author     Luke Morgan <morgan.luke94@gmail.com>
  */
-class Wp_Simple_Seo_Tags {
+class Wp_Simple_Seo_Tags
+{
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -66,8 +67,9 @@ class Wp_Simple_Seo_Tags {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
-		if ( defined( 'WP_SIMPLE_SEO_TAGS_VERSION' ) ) {
+	public function __construct()
+	{
+		if (defined('WP_SIMPLE_SEO_TAGS_VERSION')) {
 			$this->version = WP_SIMPLE_SEO_TAGS_VERSION;
 		} else {
 			$this->version = '1.0.0';
@@ -78,7 +80,6 @@ class Wp_Simple_Seo_Tags {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -97,33 +98,33 @@ class Wp_Simple_Seo_Tags {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function load_dependencies()
+	{
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-simple-seo-tags-loader.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-wp-simple-seo-tags-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-simple-seo-tags-i18n.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-wp-simple-seo-tags-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wp-simple-seo-tags-admin.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-wp-simple-seo-tags-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-simple-seo-tags-public.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-wp-simple-seo-tags-public.php';
 
 		$this->loader = new Wp_Simple_Seo_Tags_Loader();
-
 	}
 
 	/**
@@ -135,12 +136,12 @@ class Wp_Simple_Seo_Tags {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale() {
+	private function set_locale()
+	{
 
 		$plugin_i18n = new Wp_Simple_Seo_Tags_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 	}
 
 	/**
@@ -150,15 +151,15 @@ class Wp_Simple_Seo_Tags {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_hooks()
+	{
 
-		$plugin_admin = new Wp_Simple_Seo_Tags_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wp_Simple_Seo_Tags_Admin($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'post_seo_atts_meta_boxes' );
-		$this->loader->add_action( 'save_post', $plugin_admin, 'update_post_seo_atts' );
-
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'post_seo_atts_meta_boxes');
+		$this->loader->add_action('save_post', $plugin_admin, 'update_post_seo_atts');
 	}
 
 	/**
@@ -168,18 +169,19 @@ class Wp_Simple_Seo_Tags {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks()
+	{
 
-		$plugin_public = new Wp_Simple_Seo_Tags_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wp_Simple_Seo_Tags_Public($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'after_setup_theme', $plugin_public, 'enable_plugins_title_tag_management', 10, 1 );
-		$this->loader->add_filter( 'pre_get_document_title', $plugin_public, 'filter_document_title', 10, 1 );
-		$this->loader->add_action( 'wp_head', $plugin_public, 'generate_meta_description', 10, 1 );
-		$this->loader->add_filter( 'get_canonical_url', $plugin_public, 'filter_canonical_post_url', 10, 1 );
-		$this->loader->add_filter( 'wp_robots', $plugin_public, 'filter_robots_directives', 10, 1 );
-
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+		$this->loader->add_action('after_setup_theme', $plugin_public, 'enable_plugins_title_tag_management', 10, 1);
+		$this->loader->add_filter('pre_get_document_title', $plugin_public, 'filter_document_title', 10, 1);
+		$this->loader->add_action('wp_head', $plugin_public, 'generate_meta_description', 10, 1);
+		$this->loader->add_action('wp_head', $plugin_public, 'generate_responsive_tags', 10, 1);
+		$this->loader->add_filter('get_canonical_url', $plugin_public, 'filter_canonical_post_url', 10, 1);
+		$this->loader->add_filter('wp_robots', $plugin_public, 'filter_robots_directives', 10, 1);
 	}
 
 	/**
@@ -187,7 +189,8 @@ class Wp_Simple_Seo_Tags {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->loader->run();
 	}
 
@@ -198,7 +201,8 @@ class Wp_Simple_Seo_Tags {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name()
+	{
 		return $this->plugin_name;
 	}
 
@@ -208,7 +212,8 @@ class Wp_Simple_Seo_Tags {
 	 * @since     1.0.0
 	 * @return    Wp_Simple_Seo_Tags_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader()
+	{
 		return $this->loader;
 	}
 
@@ -218,8 +223,8 @@ class Wp_Simple_Seo_Tags {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version()
+	{
 		return $this->version;
 	}
-
 }
