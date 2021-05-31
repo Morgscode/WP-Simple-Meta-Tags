@@ -182,6 +182,8 @@ class Wp_Simple_Seo_Tags
 		$this->loader->add_action('wp_head', $plugin_public, 'generate_responsive_tags', 10, 1);
 		$this->loader->add_filter('get_canonical_url', $plugin_public, 'filter_canonical_post_url', 10, 1);
 		$this->loader->add_filter('wp_robots', $plugin_public, 'filter_robots_directives', 10, 1);
+		$this->loader->add_action('wp_head', $plugin_public, 'generate_opengraph_tags', 10, 1);
+		$this->loader->add_action('wp_head', $plugin_public, 'generate_twitter_cards', 10, 1);
 	}
 
 	/**
