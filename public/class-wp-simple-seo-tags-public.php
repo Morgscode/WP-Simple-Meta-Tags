@@ -74,7 +74,6 @@ class Wp_Simple_Seo_Tags_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-simple-seo-tags-public.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -121,16 +120,29 @@ class Wp_Simple_Seo_Tags_Public {
 	public function generate_meta_description()
 	{
     global $post; 
+		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
+		if ( isset( $page_seo_atts[0]['post-html-meta-description'] ) ) { ?>
+			<meta name="description" content="<?php echo $page_seo_atts[0]['post-html-meta-description']; ?>" />
+		<?php 
+		} else { ?>
+		  <meta name="description" content="<?php echo bloginfo('description'); ?>" />
+		<?php 	 
+		}
+	}
+
+	public function filter_canonical_post_url( $canonical_url )
+	{
+    global $post;
 
 		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
 
-		if ( isset( $page_seo_atts[0]['post-html-meta-description'] ) ) { ?>
-			 <meta name="description" content="<?php echo $page_seo_atts[0]['post-html-meta-description']; ?>" />
-		<?php 
-	} else { ?>
-		  <meta name="description" content="<?php echo bloginfo('description'); ?>" /> 
-		<?php 	 
+		if ( isset( $page_seo_atts[0]['post-canonical-url'] ) ) { 
+			 $canonical_url = $page_seo_atts[0]['post-canonical-url'];
+		} else {
+			 $canonical_url = $canonical_url;
 		}
+
+		return $canonical_url;
 	}
 
 }
