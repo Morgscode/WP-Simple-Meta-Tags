@@ -20,7 +20,8 @@
  * @subpackage Wp_Simple_Seo_Tags/admin
  * @author     Luke Morgan <morgan.luke94@gmail.com>
  */
-class Wp_Simple_Seo_Tags_Admin {
+class Wp_Simple_Seo_Tags_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,18 +48,19 @@ class Wp_Simple_Seo_Tags_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		$this->screens = get_post_types();
-    $this->field_keys = [
-      'post-html-page-title',
-      'post-html-meta-description',
-      'post-canonical-url',
-      'post-robots-directives'
-    ];
-
+		$this->page_atts_field_keys = [
+			'post-html-page-title',
+			'post-html-meta-description',
+			'post-canonical-url',
+			'post-robots-directives',
+			'post-social-media-image-url',
+		];
 	}
 
 	/**
@@ -66,7 +68,8 @@ class Wp_Simple_Seo_Tags_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -80,8 +83,7 @@ class Wp_Simple_Seo_Tags_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-simple-seo-tags-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wp-simple-seo-tags-admin.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -89,7 +91,8 @@ class Wp_Simple_Seo_Tags_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -103,66 +106,64 @@ class Wp_Simple_Seo_Tags_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-simple-seo-tags-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wp-simple-seo-tags-admin.js', array('jquery'), $this->version, false);
 	}
 
-	public function post_seo_atts_meta_boxes() 
-  {
-    foreach ( $this->screens as $screen ) {
-      add_meta_box(
-        'post-seo-atts',
-        'SEO HTML Page Attributes',
-        [$this, 'post_seo_metabox_html'],
-        $screen,
-      );
-    }
-  }
+	public function post_seo_atts_meta_boxes()
+	{
+		foreach ($this->screens as $screen) {
+			add_meta_box(
+				'post-seo-atts',
+				'SEO HTML Page Attributes',
+				[$this, 'post_seo_metabox_html'],
+				$screen,
+			);
+		}
+	}
 
-  public function update_post_seo_atts()
-  {
-    global $post;
+	public function update_post_seo_atts()
+	{
+		global $post;
 
 		// lets check its the wp nonce for this function
-    if( ! isset($_POST['post_seo_atts_meta_box_nonce'])) {
-      return;
-    }
-		
-		// lets verify the nonce against the current fucnction
-    if( ! wp_verify_nonce( $_POST['post_seo_atts_meta_box_nonce'], 'update_post_seo_atts') ) {
-      return;
-    }
+		if (!isset($_POST['post_seo_atts_meta_box_nonce'])) {
+			return;
+		}
 
-		// boiletplate stuff
-    if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
-      return;
-    }
-  
-    if ( ! current_user_can('edit_post', $post->ID)) {
-      return;
-    }
+		// lets verify the nonce against the current fucnction
+		if (!wp_verify_nonce($_POST['post_seo_atts_meta_box_nonce'], 'update_post_seo_atts')) {
+			return;
+		}
+
+		// boiletplate stuff - wordpress runs the 'save_post' hook at unexpected times...
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+			return;
+		}
+
+		// super important, only users with the proper access should be able to update these fields.
+		if (!current_user_can('edit_post', $post->ID)) {
+			return;
+		}
 
 		// lets define an array to store our values
-    $post_seo_atts = array();
+		$post_seo_atts = array();
 
 		// we've predefined our array keys for safety
-    foreach ( $this->field_keys as $key ) {
+		foreach ($this->page_atts_field_keys as $key) {
 			// for another layer of security, let's only check for present values against the keys we've defined 
-			if ( array_key_exists( $key, $_POST ) ) {
-				// sanitize the value and mutate our empty array
+			if (array_key_exists($key, $_POST)) {
+				// sanitize the value and mutate our empty array with only the values we expect
 				$post_seo_atts[$key] = sanitize_text_field($_POST[$key]);
-			}	
-    }
+			}
+		}
 
-    // update the meta field value
-    update_post_meta( $post->ID, 'post-seo-atts', $post_seo_atts );
-	
-  }
-  
-  public function post_seo_metabox_html() 
-  {
+		// update the meta field value
+		update_post_meta($post->ID, 'post-seo-atts', $post_seo_atts);
+	}
+
+	public function post_seo_metabox_html()
+	{
 		// lets grab the html in our admin display.
-		require plugin_dir_path(__FILE__).'partials/wp-simple-seo-tags-admin-page-atts-metabox-display.php';
-  }
-	
+		require plugin_dir_path(__FILE__) . 'partials/wp-simple-seo-tags-admin-display.php';
+	}
 }
