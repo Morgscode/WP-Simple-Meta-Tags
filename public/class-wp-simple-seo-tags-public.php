@@ -123,7 +123,6 @@ class Wp_Simple_Seo_Tags_Public
 	{
 		global $post;
 		$page_seo_atts = get_post_meta($post->ID, 'post-seo-atts', false);
-
 		if (isset($page_seo_atts[0]['post-html-meta-description'])) { ?>
 			<meta name="description" content="<?php echo $page_seo_atts[0]['post-html-meta-description']; ?>" />
 		<?php
@@ -136,9 +135,9 @@ class Wp_Simple_Seo_Tags_Public
 	public function generate_responsive_tags()
 	{
 		?>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-<?php
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<?php
 	}
 
 	public function filter_canonical_post_url($canonical_url)
@@ -178,5 +177,30 @@ class Wp_Simple_Seo_Tags_Public
 		}
 
 		return $robots;
+	}
+
+	public function generate_opengraph_tags()
+	{
+		global $post;
+		$page_seo_atts = get_post_meta($post->ID, 'post-seo-atts', false);
+	?>
+		<meta property="og:title" content="<?php echo (isset($page_seo_atts[0]['post-html-page-title'])) ? $page_seo_atts[0]['post-html-page-title'] : single_post_title(); ?>" />
+		<meta property="og:url" content="<?php echo (isset($page_seo_atts[0]['post-canonical-url'])) ? $page_seo_atts[0]['post-canonical-url'] : get_permalink($post->ID); ?>" />
+		<meta property="og:image" content="<?php echo (isset($page_seo_atts[0]['post-social-media-image-url'])) ? $page_seo_atts[0]['post-social-media-image-url'] : get_the_post_thumbnail($post->ID); ?>" />
+		<meta property="og:type" content="<?php echo ($post->post_type == 'post') ? 'article' : 'website' ?>" />
+		<meta property="og:description" content="<?php echo (isset($page_seo_atts[0]['post-html-meta-description'])) ? $page_seo_atts[0]['post-html-meta-description'] : bloginfo('description'); ?>" />
+		<meta property="og:locale" content="<?php echo get_user_locale(); ?>" />
+	<?php
+	}
+
+	public function generate_twitter_cards()
+	{
+		global $post;
+		$page_seo_atts = get_post_meta($post->ID, 'post-seo-atts', false);
+	?>
+		<meta name=”twitter:title” content="<?php echo (isset($page_seo_atts[0]['post-html-page-title'])) ? $page_seo_atts[0]['post-html-page-title'] : single_post_title(); ?>" />
+		<meta name=”twitter:description” content="<?php echo (isset($page_seo_atts[0]['post-html-meta-description'])) ? $page_seo_atts[0]['post-html-meta-description'] : bloginfo('description'); ?>" />
+		<meta name=”twitter:image” content="<?php echo (isset($page_seo_atts[0]['post-social-media-image-url'])) ? $page_seo_atts[0]['post-social-media-image-url'] : get_the_post_thumbnail($post->ID); ?>" />
+<?php
 	}
 }

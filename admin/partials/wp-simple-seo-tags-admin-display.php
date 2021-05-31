@@ -26,16 +26,16 @@ $post_seo_atts =  get_post_meta($post->ID, 'post-seo-atts', false);
 
   <label for="post-html-page-title" class="metabox__label">Enter the value for the page/post html title tag</label>
 
-  <small class="metabox__info">This will appear in search engine results page listings</small>
+  <small class="metabox__info">This will appear in search engine results page listings. Best kept under 60 characters</small>
 
-  <input type="text" class="metabox__text-input" name="post-html-page-title" value="<?php echo (isset($post_seo_atts[0]['post-html-page-title'])) ? $post_seo_atts[0]['post-html-page-title'] : ''; ?>" />
+  <input type="text" class="metabox__text-input" name="post-html-page-title" maxlength="60" value="<?php echo (isset($post_seo_atts[0]['post-html-page-title'])) ? $post_seo_atts[0]['post-html-page-title'] : ''; ?>" />
 
 </div>
 
 <div class="metabox">
   <label class="metabox__label" for="post-html-meta-description">Create a good meta description</label>
 
-  <small class="metabox__info">This will appear in search engine results page listings</small>
+  <small class="metabox__info">This will appear in search engine results page listings. Ideally between 50 and 160 characters for good effect!</small>
 
   <textarea name="post-html-meta-description" class="metabox__text-area" id="post-html-meta-description" rows="10" minlength="50" maxlength="160"><?php echo (isset($post_seo_atts[0]['post-html-meta-description'])) ? $post_seo_atts[0]['post-html-meta-description'] : ''; ?></textarea>
 
@@ -64,7 +64,7 @@ $post_seo_atts =  get_post_meta($post->ID, 'post-seo-atts', false);
 
   <label for="post-robots-directives" class="metabox__label">Select an image to display when sharing this page on social media</label>
 
-  <small class="metabox__info">this image will be used for both opengraph and twitter card meta tag generation</small>
+  <small class="metabox__info">this image will be used for both opengraph and twitter card meta tag generation. It needs to be less than 5MB for it to work.</small>
 
   <button class="button wp-simple-seo-tags-media-button" data-wp-simple-seo-tags-media-uploader-target=".wp-simple-seo-tags-social-media-image" style="margin-right: 1rem;">Upload File</button>
 
