@@ -43,10 +43,6 @@
           // Get the btn
           var btn = e.target;
 
-          console.log(
-            $(btn).attr("data-wp-simple-seo-tags-media-uploader-target")
-          );
-
           // Check if it's the upload button
           if (
             !btn ||
@@ -56,8 +52,6 @@
 
           // Get the field target
           var field = $(btn).data("wp-simple-seo-tags-media-uploader-target");
-
-          console.log($(field));
 
           // Prevents the default action from occuring.
           e.preventDefault();
@@ -83,7 +77,7 @@
 
             // lets display the preview image
             $(field + "-preview").attr("src", media_attachment.url);
-            if ($(field + "-preview").hasClass("preview-visible")) {
+            if (!$(field + "-preview").hasClass("preview-visible")) {
               $(field + "-preview").addClass("preview-visible");
             }
           });
@@ -94,5 +88,14 @@
       },
     };
     CustomPluginMediaUploader.construct();
+
+    $(".wp-simple-seo-tags-remove-image").click(function (e) {
+      e.preventDefault();
+      $(".wp-simple-seo-tags-social-media-image").attr("value", "");
+      $(".wp-simple-seo-tags-social-media-image-preview").attr("src", "");
+      $(".wp-simple-seo-tags-social-media-image-preview").removeClass(
+        "preview-visible"
+      );
+    });
   });
 })(jQuery);

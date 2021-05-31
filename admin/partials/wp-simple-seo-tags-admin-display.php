@@ -20,9 +20,6 @@ global $post;
 
 wp_nonce_field('update_post_seo_atts', 'post_seo_atts_meta_box_nonce');
 $post_seo_atts =  get_post_meta($post->ID, 'post-seo-atts', false);
-
-var_dump($post_seo_atts);
-
 ?>
 
 <div class="metabox">
@@ -67,14 +64,16 @@ var_dump($post_seo_atts);
 
   <label for="post-robots-directives" class="metabox__label">Select an image to display when sharing this page on social media</label>
 
-  <small class="metabox__info">for multiple directives, input your directives as a comma seperated list, i.e. index, follow</small>
+  <small class="metabox__info">this image will be used for both opengraph and twitter card meta tag generation</small>
 
-  <button class="button wp-simple-seo-tags-media-button" data-wp-simple-seo-tags-media-uploader-target=".wp-simple-seo-tags-social-media-image">Upload File</button>
+  <button class="button wp-simple-seo-tags-media-button" data-wp-simple-seo-tags-media-uploader-target=".wp-simple-seo-tags-social-media-image" style="margin-right: 1rem;">Upload File</button>
+
+  <button class="button wp-simple-seo-tags-remove-image">Remove Image</button>
 
   <img class="wp-simple-seo-tags-social-media-image-preview 
-  <?php echo (isset($post_seo_atts[0]['post-social-media-image-url'])) ? 'preview-visible' : ''; ?>
-  " <?php echo (isset($post_seo_atts[0]['post-social-media-image-url'])) ? 'src=' . $post_seo_atts[0]['post-social-media-image-url'] : ''; ?> />
+  <?php echo (!empty($post_seo_atts[0]['post-social-media-image-url'])) ? 'preview-visible' : ''; ?>
+  " <?php echo (!empty($post_seo_atts[0]['post-social-media-image-url'])) ? 'src=' . $post_seo_atts[0]['post-social-media-image-url'] : ''; ?> />
 
-  <input class="wp-simple-seo-tags-social-media-image" id="wp-simple-seo-tags-social-media-image" name="post-social-media-image-url" type="hidden" />
+  <input class="wp-simple-seo-tags-social-media-image" id="wp-simple-seo-tags-social-media-image" name="post-social-media-image-url" type="hidden" <?php echo (isset($post_seo_atts[0]['post-social-media-image-url'])) ? 'value=' . $post_seo_atts[0]['post-social-media-image-url'] : ''; ?> />
 
 </div>

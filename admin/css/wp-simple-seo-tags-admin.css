@@ -47,7 +47,7 @@
 }
 
 .wp-simple-seo-tags-social-media-image-preview {
-  display: none;
+  display: none !important;
   width: 0px;
   height: 0px;
 }
