@@ -114,7 +114,7 @@ class Wp_Simple_Seo_Tags_Admin
 		foreach ($this->screens as $screen) {
 			add_meta_box(
 				'post-seo-atts',
-				'SEO HTML Page Attributes',
+				'WP Simple SEO Tags',
 				[$this, 'post_seo_metabox_html'],
 				$screen,
 			);
