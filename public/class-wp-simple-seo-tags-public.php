@@ -152,7 +152,9 @@ class Wp_Simple_Seo_Tags_Public {
 
 		$page_seo_atts = get_post_meta( $post->ID, 'post-seo-atts', false );
 
-		if ( isset( $page_seo_atts[0]['post-robots-directives'] ) ) {
+		if ( isset( $page_seo_atts[0]['post-robots-directives'] ) && !empty($page_seo_atts[0]['post-robots-directives']) ) {
+
+			$robots = array();
 
 			$robots_atts = explode( ',', $page_seo_atts[0]['post-robots-directives'] );
 	
@@ -160,7 +162,7 @@ class Wp_Simple_Seo_Tags_Public {
 				$robots[$robot] = true;
 			}
 		}
-		
+
 		return $robots;
 	}
 
