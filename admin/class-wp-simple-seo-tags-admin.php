@@ -57,7 +57,7 @@ class Wp_Simple_Seo_Tags_Admin {
       'post-html-meta-description',
       'post-canonical-url',
       'post-robots-directives',
-			'social-media-image-url'
+			'post-social-media-image-url',
     ];
 	}
 
@@ -162,7 +162,7 @@ class Wp_Simple_Seo_Tags_Admin {
   public function post_seo_metabox_html() 
   {
 		// lets grab the html in our admin display.
-		require plugin_dir_path(__FILE__).'partials/wp-simple-seo-tags-admin-page-atts-metabox-display.php';
+		require plugin_dir_path(__FILE__).'partials/wp-simple-seo-tags-admin-display.php';
   }
 
 }

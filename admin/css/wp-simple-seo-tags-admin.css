@@ -45,3 +45,17 @@
   outline: none !important;
   box-shadow: none !important;
 }
+
+.wp-simple-seo-tags-social-media-image-preview {
+  display: none;
+  width: 0px;
+  height: 0px;
+}
+
+.preview-visible {
+  margin-top: 2rem;
+  display: block !important;
+  width: auto !important;
+  max-width: 650px !important;
+  height: auto !important;
+}
